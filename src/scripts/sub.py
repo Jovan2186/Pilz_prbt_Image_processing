@@ -81,16 +81,19 @@ def callback(image_msg):
             object_size_meters = 0.08  # 5 cm converted to meters
             object_size_pixels = 174  # Replace with the actual size in pixels provided by OpenCV           
 
-            pixel_size_meters = object_size_meters / object_size_pixels         
-            # pixel_size_meters=0.0004597701149425287
+            # pixel_size_meters = object_size_meters / object_size_pixels         
+            pixel_size_meters=0.0004597701149425287
             # Assuming you have the pixel coordinates of the center point
-            center_pixel_x = box_center[0]  # Replace with the actual x-coordinate
-            center_pixel_y = box_center[1]  # Replace with the actual y-coordinate         
+            center_pixel_x =250 - box_center[0]  # Replace with the actual x-coordinate
+            center_pixel_y =250 - box_center[1]  # Replace with the actual y-coordinate 
+                 
 
             # Convert pixel coordinates to meters
             center_point_x_meters = center_pixel_x * pixel_size_meters
-            center_point_y_meters = center_pixel_y * pixel_size_meters          
-
+            center_point_y_meters = center_pixel_y * pixel_size_meters        
+            
+            
+            
             print(f"pixel_size_meters={pixel_size_meters}, Center point in meters: ({center_point_x_meters}, {center_point_y_meters})")
 
             pose_msg = Pose()
