@@ -20,8 +20,8 @@ def callback(image_msg):
         cv2.imshow('ROS Image Subscriber', cv_image)
         hsv_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2HSV)
         cv2.imshow("hsv image",hsv_image)
-        lower_bound_color=np.array([88, 0, 0])  #([0, 0, 200]) {'hmin': 88, 'smin': 0, 'vmin': 0, 'hmax': 122, 'smax': 255, 'vmax': 255}
-        upper_bound_color=np.array([122, 255, 255])  #([180, 30, 255])
+        lower_bound_color=np.array([0, 0, 200])  #([0, 0, 200]) {'hmin': 88, 'smin': 0, 'vmin': 0, 'hmax': 122, 'smax': 255, 'vmax': 255}
+        upper_bound_color=np.array([180, 30, 255])  #([180, 30, 255])
     #define a mask using the lower and upper bounds of the yellow color 
         mask = cv2.inRange(hsv_image, lower_bound_color, upper_bound_color)
         cv2.imshow('mask',mask)
@@ -83,15 +83,22 @@ def callback(image_msg):
 
             # pixel_size_meters = object_size_meters / object_size_pixels         
             pixel_size_meters=0.0004597701149425287
-            # Assuming you have the pixel coordinates of the center point
-            center_pixel_x =250 - box_center[0]  # Replace with the actual x-coordinate
-            center_pixel_y =250 - box_center[1]  # Replace with the actual y-coordinate 
+            prin_x=640
+            prin_y=360
+            # Assuming you have the pixel coordinates of the center pointpoko  
+            center_pixel_x = prin_x- box_center[0]  # Replace with the actual x-coordinate
+            center_pixel_y = box_center[1] - prin_y # Replace with the actual y-coordinate 
+            
+            # if box_center[0] < prin_x:
+            #     center_pixel_x = box_center[0] - prin_x # Replace with the actual x-coordinate
+            #     center_pixel_y = box_center[1] - prin_y
+                
                  
-
+            # if center_pixel_x<0 and 
+            
             # Convert pixel coordinates to meters
             center_point_x_meters = center_pixel_x * pixel_size_meters
             center_point_y_meters = center_pixel_y * pixel_size_meters        
-            
             
             
             print(f"pixel_size_meters={pixel_size_meters}, Center point in meters: ({center_point_x_meters}, {center_point_y_meters})")
@@ -107,7 +114,7 @@ def callback(image_msg):
             pose_msg.orientation.w = 1.0  # Set your actual orientation w
             
             pose_pub.publish(pose_msg)
-        else:
+        else:   
             print("no contours")
         cv2.waitKey(10)
 
@@ -118,7 +125,7 @@ if __name__=="__main__":
     rospy.init_node("image_subscriber", anonymous=True)
     print("Subscribe images from topic /image_raw ...")
 
-    image_subcriber = rospy.Subscriber("/image_topic", Image, callback) #/camera/color/image_raw image_topic
+    image_subcriber = rospy.Subscriber("/camera/color/image_raw", Image, callback) #/camera/color/image_raw     image_topic
 
     # Create a publisher for the PoseStamped messages
     pose_pub = rospy.Publisher('/camera_coord', Pose, queue_size=10)

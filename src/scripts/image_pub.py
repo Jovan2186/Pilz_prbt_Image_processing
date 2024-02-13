@@ -17,14 +17,14 @@ def image_publisher():
     # Open a camera or load an image (replace this with your image source)
 
 
-    img = cv2.imread('src/image_process/src/scripts/Combination-spanner.jpg')
+    img = cv2.imread('src/image_process/src/scripts/object.jpg')
 
     while not rospy.is_shutdown():
         
         rows, cols = img.shape[:2]
 
 # Define the rotation angle
-        angle = 185
+        angle = 0
 
         # Calculate the rotation matrix
         rotation_matrix = cv2.getRotationMatrix2D((cols / 2, rows / 2), angle, 1)

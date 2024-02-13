@@ -21,14 +21,14 @@ def main():
     scene = moveit_commander.PlanningSceneInterface()
     group_name = "manipulator"  # replace with your robot's planning group name
     group = moveit_commander.MoveGroupCommander(group_name)
-    group.set_max_velocity_scaling_factor(0.20)
+    group.set_max_velocity_scaling_factor(0.10)
     group.set_max_acceleration_scaling_factor(0.20)
 
     # Define the pick pose
     pick_pose = Pose()
-    pick_pose.position.x = 0.0  # set x-coordinate for pick position
-    pick_pose.position.y = 0.307  # set y-coordinate for pick position
-    pick_pose.position.z = 0.527
+    pick_pose.position.x = 0.1+(0.1 - 0.21398191) # set x-coordinate for pick position -0.19014014233117815, -0.1523866570132902
+    pick_pose.position.y = 0.307+(0.307 - 0.13435346)# set y-coordinate for pick position -0.19014014 0.50438666
+    pick_pose.position.z = 0.2
     pick_pose.orientation.x = 1.0
     pick_pose.orientation.y = 0.0
     pick_pose.orientation.z = 0.0  # Axis of rotation (Z-axis)
@@ -43,10 +43,12 @@ def main():
         return
 
     print("Pick successful!")
+    
+    rospy.sleep(5)
 
     # Define the place pose
     place_pose = Pose()
-    place_pose.position.x = 0.1  # set x-coordinate for place position
+    place_pose.position.x = 0.0  # set x-coordinate for place position
     place_pose.position.y = 0.307  # set y-coordinate for place position
     place_pose.position.z = 0.527
     place_pose.orientation.x = 1.0
